@@ -20,5 +20,13 @@ if __name__ == '__main__':
         max_lines = int(sys.argv[2])
     else:
         max_lines = sys.maxint
-    for customer_id, order in group_orders_to_customer(input_file).items():
-        print customer_id, order
+    cust_table = {}
+    prod_table = {}
+    for customer_id, order_list in group_orders_to_customer(input_file).items():
+        for order in order_list:
+            cust_table.setdefault(customer_id, set()).add(order.product_id)
+            prod_table.setdefault(order.product_id, set()).add(customer_id)
+    for c, o in cust_table.items():
+        print c, len(o)
+    for p, c in prod_table.items():
+        print p, len(c)
