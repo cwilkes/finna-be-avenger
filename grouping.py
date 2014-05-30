@@ -1,5 +1,6 @@
 import models
 from collections import defaultdict
+from collections import Counter
 import sys
 
 
@@ -28,7 +29,11 @@ if __name__ == '__main__':
             prod_table.setdefault(order.product_id, set()).add(customer_id)
 
     while True:
-        cust_id = raw_input()
+        try:
+            cust_id = raw_input()
+        except EOFError, e:
+            break
+
         if cust_id == '*':
             break
         print cust_id
@@ -48,12 +53,15 @@ if __name__ == '__main__':
         #print other_cust
 
         # products purchased by those customers
-        other_prod = set()
+        suggested = Counter()
         for c in other_cust:
-            other_prod = other_prod.union(cust_table[c])
+            suggested.update(cust_table[c])
+            #for p in cust_table[c]:
+            #    suggested[p] += 1
 
-        suggested = other_prod - product_ids
-        print suggested
+        for p in product_ids:
+            del suggested[p]
+        print suggested.most_common(10)
 
 
 
