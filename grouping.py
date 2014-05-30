@@ -26,7 +26,31 @@ if __name__ == '__main__':
         for order in order_list:
             cust_table.setdefault(customer_id, set()).add(order.product_id)
             prod_table.setdefault(order.product_id, set()).add(customer_id)
-    for c, o in cust_table.items():
-        print c, len(o)
-    for p, c in prod_table.items():
-        print p, len(c)
+
+    while True:
+        cust_id = raw_input()
+        if cust_id == '*':
+            break
+        print cust_id
+        
+        cust_id = int(cust_id)
+        if not cust_id in cust_table:
+            print "Customer ID not found"
+            continue
+                
+        product_ids = cust_table[cust_id]
+        print product_ids
+
+        other_cust = set()
+        for p in product_ids:
+            other_cust.union(prod_table[p])
+
+        other_prod = set()
+        for c in other_cust:
+            other_prod.union(cust_table[c])
+
+        suggested = other_prod - product_ids
+        print suggested
+
+
+
