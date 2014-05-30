@@ -39,15 +39,16 @@ if __name__ == '__main__':
             continue
                 
         product_ids = cust_table[cust_id]
-        print product_ids
+        #print product_ids
 
         other_cust = set()
         for p in product_ids:
-            other_cust.union(prod_table[p])
+            other_cust = other_cust.union(prod_table[p])
+        #print other_cust
 
         other_prod = set()
         for c in other_cust:
-            other_prod.union(cust_table[c])
+            other_prod = other_prod.union(cust_table[c])
 
         suggested = other_prod - product_ids
         print suggested
