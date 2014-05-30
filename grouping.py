@@ -41,11 +41,13 @@ if __name__ == '__main__':
         product_ids = cust_table[cust_id]
         #print product_ids
 
+        # Get other customers who have purchased my product
         other_cust = set()
         for p in product_ids:
             other_cust = other_cust.union(prod_table[p])
         #print other_cust
 
+        # products purchased by those customers
         other_prod = set()
         for c in other_cust:
             other_prod = other_prod.union(cust_table[c])
