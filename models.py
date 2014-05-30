@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+LatLong = namedtuple('LatLong', 'latitude longitude')
 Campaign = namedtuple('Campaign', 'campaign_id, network, rate_metric, rate_amount, keyword, min_lat')
 Click = namedtuple('Click', 'date, cookie, landing_page')
 Chargeback = namedtuple('Chargeback', 'date, transaction_id, amount')
