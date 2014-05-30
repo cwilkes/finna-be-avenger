@@ -14,8 +14,6 @@ def group_orders_to_customer(order_file, max_lines=sys.maxint):
     return ret
 
 
-
-
 if __name__ == '__main__':
     input_file = sys.argv[1]
     if len(sys.argv) >= 3:
