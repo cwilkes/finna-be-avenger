@@ -3,6 +3,8 @@ from collections import defaultdict
 from collections import Counter
 import sys
 
+#from pyspark import SparkContext
+#sc = SparkContext(appName="PythonCollabFilter")
 
 def group_orders_to_customer(order_file, max_lines=sys.maxint):
     ret = defaultdict(list)
@@ -36,32 +38,37 @@ if __name__ == '__main__':
 
         if cust_id == '*':
             break
-        print cust_id
         
         cust_id = int(cust_id)
         if not cust_id in cust_table:
             print "Customer ID not found"
             continue
+        print "Customer: ", cust_id
                 
         product_ids = cust_table[cust_id]
-        #print product_ids
+        print "Purchased products: ", product_ids
 
-        # Get other customers who have purchased my product
+        #
+        # 1. Get other customers who have purchased my products.
+        #
         other_cust = set()
         for p in product_ids:
             other_cust = other_cust.union(prod_table[p])
         #print other_cust
 
-        # products purchased by those customers
+        #
+        # 2. Products purchased by those customers.
+        #
         suggested = Counter()
         for c in other_cust:
             suggested.update(cust_table[c])
-            #for p in cust_table[c]:
-            #    suggested[p] += 1
 
+        #
+        # 3. Remove already purchased products.
+        #
         for p in product_ids:
             del suggested[p]
-        print suggested.most_common(10)
+        print "Suggested products: ", suggested.most_common(10)
 
 
 
